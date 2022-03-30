@@ -3,7 +3,8 @@
 package com.chrrissoft.amazingkeyboard
 
 import android.inputmethodservice.InputMethodService
-import android.view.*
+import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistry
@@ -12,8 +13,8 @@ import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
 
 
-class IMEService : InputMethodService(), LifecycleOwner,
-    ViewModelStoreOwner, SavedStateRegistryOwner {
+class IMEService : InputMethodService(),
+    LifecycleOwner, ViewModelStoreOwner, SavedStateRegistryOwner {
 
     override fun onCreateInputView(): View {
         val view = AndroidKeyboardView(this)
@@ -30,17 +31,16 @@ class IMEService : InputMethodService(), LifecycleOwner,
         return view
     }
 
+    override fun sendKeyChar(charCode: Char) {
+        super.sendKeyChar(charCode)
+    }
+
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
         super.onStartInput(attribute, restarting)
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-    }
-
-    fun sendText(text: CharSequence, newCursorPosition: Int) {
-        val focusedTextField = currentInputConnection // get null
-        focusedTextField.commitText(text, newCursorPosition)
     }
 
     // Lifecycle Methods

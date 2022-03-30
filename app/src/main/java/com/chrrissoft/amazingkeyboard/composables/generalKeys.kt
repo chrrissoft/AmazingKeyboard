@@ -23,11 +23,11 @@ import androidx.compose.ui.unit.sp
 import com.chrrissoft.amazingkeyboard.IMEService
 import com.chrrissoft.amazingkeyboard.util.unicodeToString
 
+val connection = IMEService()
 
 // Backspace Key
 @Composable
 fun TestKey(modifier: Modifier = Modifier) {
-    val connection = IMEService()
     Key(
         modifier = modifier
             .fillMaxSize()
@@ -36,7 +36,7 @@ fun TestKey(modifier: Modifier = Modifier) {
             .background(MaterialTheme.colors.secondaryVariant)
             .padding(end = 2.dp)
             .clickable {
-                connection.sendText(unicodeToString(0x1F383), 1)
+                connection.sendKeyChar('h')
             }
     ) {
         Icon(
