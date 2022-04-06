@@ -1,11 +1,12 @@
 package com.chrrissoft.amazingkeyboard
 
 import android.content.Context
-import android.widget.Button
 import android.widget.FrameLayout
+import androidx.compose.foundation.clickable
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import com.chrrissoft.amazingkeyboard.composables.KeyboardScreen
-import com.chrrissoft.amazingkeyboard.util.unicodeToString
 
 class AndroidKeyboardView(context: Context) : FrameLayout(context) {
 

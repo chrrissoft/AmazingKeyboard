@@ -5,6 +5,5 @@
         android:name = "my app"
         android:label="English (U.S)"
         android:imeSubtypeLocale="en_US"
-        android:imeSubtypeMode="keyboard"
-        android:imeSubtypeExtraValue="somePrivateOption=true" />
+        android:imeSubtypeMode="keyboard"/>
 </input-method>

@@ -1,6 +1,8 @@
 package com.chrrissoft.amazingkeyboard.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,7 +30,7 @@ fun KeyboardScreen() {
         ) {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "qwertyLayout") {
-                composable("qwertyLayout") { QwertyLayout(navController) }
+                composable("qwertyLayout") { QwertyLayout(navController)}
                 composable("symbolsLayout") { SymbolsLayout(navController) }
                 composable("emojiLayout") { EmojiLayout(navController) }
             }

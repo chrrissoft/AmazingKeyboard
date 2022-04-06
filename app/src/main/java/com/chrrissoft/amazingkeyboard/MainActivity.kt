@@ -1,5 +1,6 @@
 package com.chrrissoft.amazingkeyboard
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,6 +32,9 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+        val intent = Intent(this, IMEService::class.java).apply {
+            startService(this)
         }
     }
 }

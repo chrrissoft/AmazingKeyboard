@@ -18,7 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.chrrissoft.amazingkeyboard.composables.TestKey
 import com.chrrissoft.amazingkeyboard.composables.ToggleToLetterLayoutKey
 import com.chrrissoft.amazingkeyboard.composables.emojis.*
 import com.chrrissoft.amazingkeyboard.composables.layouts.EmojiPages.*
@@ -60,7 +59,7 @@ fun EmojiLayout(navController: NavHostController) {
                 selectedPage = currentPage,
                 modifier = Modifier.weight(5f)
             ) { onPageChange(it) }
-            TestKey(Modifier.weight(1f))
+//            TestKey(Modifier.weight(1f))
         }
     }
 }
