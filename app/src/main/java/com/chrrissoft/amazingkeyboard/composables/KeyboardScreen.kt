@@ -21,7 +21,7 @@ import com.chrrissoft.amazingkeyboard.ui.theme.AmazingKeyboardTheme
 @Composable
 fun KeyboardScreen() {
 
-    AmazingKeyboardTheme() {
+    AmazingKeyboardTheme(false) {
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colors.primaryVariant)

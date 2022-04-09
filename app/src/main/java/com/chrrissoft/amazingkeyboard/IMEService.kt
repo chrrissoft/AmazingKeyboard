@@ -2,17 +2,33 @@
 
 package com.chrrissoft.amazingkeyboard
 
+import android.content.Intent
 import android.inputmethodservice.InputMethodService
+import android.os.Binder
+import android.os.IBinder
 import android.view.View
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
+import java.util.*
 
 
-    class IMEService : InputMethodService(),
+class IMEService : InputMethodService(),
         LifecycleOwner, ViewModelStoreOwner, SavedStateRegistryOwner {
+
+        private val binder = LocalBinder()
+
+        fun sendText() = currentInputConnection.commitText("hello", 1)
+
+        inner class LocalBinder : Binder() {
+            fun getService(): IMEService = this@IMEService
+        }
+
+        fun myOnBind(intent: Intent): IBinder {
+            return binder
+        }
 
         override fun onCreateInputView(): View {
 
@@ -30,10 +46,6 @@ import androidx.savedstate.ViewTreeSavedStateRegistryOwner
             }
 
             return view
-        }
-
-        override fun onBindInput() {
-            super.onBindInput()
         }
 
         //Lifecycle Methods

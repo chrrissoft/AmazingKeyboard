@@ -39,7 +39,7 @@ private val LightColorPalette = lightColors(
 
 @Composable
 fun AmazingKeyboardTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean,
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {

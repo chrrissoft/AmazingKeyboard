@@ -18,11 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.chrrissoft.amazingkeyboard.IMEService
-import com.chrrissoft.amazingkeyboard.util.unicodeToString
 
 
 // Backspace Key
@@ -35,8 +32,6 @@ fun TestKey(modifier: Modifier = Modifier) {
             .clip(RoundedCornerShape(7.dp))
             .background(MaterialTheme.colors.secondaryVariant)
             .padding(end = 2.dp)
-            .clickable {
-            }
     ) {
         Icon(
             imageVector = Icons.Rounded.Backspace,
