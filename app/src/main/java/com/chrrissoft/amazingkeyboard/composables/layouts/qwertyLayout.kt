@@ -9,14 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.chrrissoft.amazingkeyboard.IMEService
 import com.chrrissoft.amazingkeyboard.composables.*
 import com.chrrissoft.amazingkeyboard.composables.qwerty.QwertyPage
 import com.chrrissoft.amazingkeyboard.composables.qwerty.qwertyList
 
 @Composable
-fun QwertyLayout(navController: NavHostController) {
+fun QwertyLayout(navController: NavHostController, connection: IMEService) {
     Column(Modifier.fillMaxSize()) {
-        QwertyPage(qwertyList, Modifier.weight(3f))
+        QwertyPage(qwertyList, Modifier.weight(3f), connection)
         BarraInferirQwerty(navController = navController, modifier = Modifier.weight(1f))
     }
 }

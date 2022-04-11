@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.chrrissoft.amazingkeyboard.IMEService
 import com.chrrissoft.amazingkeyboard.composables.TestKey
 import com.chrrissoft.amazingkeyboard.composables.ToggleToLetterLayoutKey
 import com.chrrissoft.amazingkeyboard.composables.emojis.*
@@ -36,7 +37,7 @@ enum class EmojiPages {
 }
 
 @Composable
-fun EmojiLayout(navController: NavHostController) {
+fun EmojiLayout(navController: NavHostController, connection: IMEService) {
 
     val (currentPage, onPageChange) = remember {
         mutableStateOf(EmoticonsAndEmotionsPage)
@@ -60,7 +61,7 @@ fun EmojiLayout(navController: NavHostController) {
                 selectedPage = currentPage,
                 modifier = Modifier.weight(5f)
             ) { onPageChange(it) }
-            TestKey(Modifier.weight(1f))
+            TestKey(Modifier.weight(1f), connection)
         }
     }
 }

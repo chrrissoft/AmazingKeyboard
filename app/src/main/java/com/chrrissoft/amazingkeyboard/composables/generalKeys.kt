@@ -26,8 +26,7 @@ import com.chrrissoft.amazingkeyboard.util.unicodeToString
 
 // Backspace Key
 @Composable
-fun TestKey(modifier: Modifier = Modifier) {
-    val connection = IMEService()
+fun TestKey(modifier: Modifier = Modifier, connection: IMEService) {
     Key(
         modifier = modifier
             .fillMaxSize()
