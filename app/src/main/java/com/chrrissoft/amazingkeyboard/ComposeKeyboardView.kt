@@ -13,6 +13,6 @@ class ComposeKeyboardView constructor(
 
     @Composable
     override fun Content() {
-        KeyboardScreen()
+        //KeyboardScreen()
     }
 }

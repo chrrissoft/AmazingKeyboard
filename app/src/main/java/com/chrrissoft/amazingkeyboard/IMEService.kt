@@ -1,9 +1,7 @@
-@file:Suppress("NAME_SHADOWING")
-
 package com.chrrissoft.amazingkeyboard
 
 import android.inputmethodservice.InputMethodService
-import android.view.*
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistry
@@ -22,10 +20,10 @@ class IMEService : InputMethodService(), LifecycleOwner,
             ViewTreeViewModelStoreOwner.set(decorView, this)
             ViewTreeSavedStateRegistryOwner.set(decorView, this)
         }
-        view.let { view: AndroidKeyboardView ->
-            ViewTreeLifecycleOwner.set(view, this)
-            ViewTreeViewModelStoreOwner.set(view, this)
-            ViewTreeSavedStateRegistryOwner.set(view, this)
+        view.let { v: AndroidKeyboardView ->
+            ViewTreeLifecycleOwner.set(v, this)
+            ViewTreeViewModelStoreOwner.set(v, this)
+            ViewTreeSavedStateRegistryOwner.set(v, this)
         }
         return view
     }
