@@ -72,8 +72,8 @@ dependencies {
 
     //navigation
     def nav_version = "2.4.2"
-    implementation 'com.google.accompanist:accompanist-pager-indicators:0.23.1'
     implementation "androidx.navigation:navigation-compose:$nav_version"
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.23.1'
 
     //datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
@@ -84,6 +84,10 @@ dependencies {
 
     //livedata
     implementation 'androidx.lifecycle:lifecycle-livedata:2.4.1'
+
+    // coil
+    implementation 'io.coil-kt:coil-compose:2.0.0-rc02'
+
 }
 
 kapt {
