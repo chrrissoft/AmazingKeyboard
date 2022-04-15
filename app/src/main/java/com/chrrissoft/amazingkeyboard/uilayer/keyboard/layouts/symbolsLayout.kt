@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowLeft
 import androidx.compose.material.icons.rounded.ArrowRight
+import androidx.compose.material.icons.rounded.GMobiledata
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,11 +55,11 @@ fun SymbolsLayout(navController: NavHostController, connection: IMEService) {
             ChangePageButton(icon = Icons.Rounded.ArrowLeft, modifier = Modifier.weight(1f)) {
                 onPageChange(SymbolsPages.PageOne)
             }
-            SpacerKey(Modifier.weight(4f))
+            SpacerKey(Modifier.weight(4f).clickable { connection.sendText(" ") })
             ChangePageButton(icon = Icons.Rounded.ArrowRight, modifier = Modifier.weight(1f)) {
                 onPageChange(SymbolsPages.PageTwo)
             }
-            IMEActonButton(Modifier.weight(1.5f)) { }
+            IMEActonButton(Icons.Rounded.GMobiledata, Modifier.weight(1.5f)) { connection.doneText() }
         }
     }
 }

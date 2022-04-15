@@ -1,6 +1,7 @@
 package com.chrrissoft.amazingkeyboard.datalayer.di
 
 import android.content.Context
+import com.chrrissoft.amazingkeyboard.AmazingKeyboardApp
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 class AppModule {
     @Singleton
     @Provides
-    fun provideMyApplication(@ApplicationContext app: Context) : AmazingKeyboard {
-        return app as AmazingKeyboard
+    fun provideMyApplication(@ApplicationContext app: Context) : AmazingKeyboardApp {
+        return app as AmazingKeyboardApp
     }
 }

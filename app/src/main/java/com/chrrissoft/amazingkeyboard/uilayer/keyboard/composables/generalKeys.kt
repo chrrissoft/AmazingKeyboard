@@ -18,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -77,7 +79,7 @@ fun ToggleToSymbolLayoutsKey(modifier: Modifier = Modifier, goToSymbolsLayout: (
 }
 
 @Composable
-fun ShiftKey(modifier: Modifier = Modifier) {
+fun ShiftKey(icon: ImageVector, modifier: Modifier = Modifier) {
     Key(
         modifier = modifier
             .fillMaxSize()
@@ -87,10 +89,10 @@ fun ShiftKey(modifier: Modifier = Modifier) {
             .padding(start = 2.dp)
     ) {
         Icon(
-            imageVector = Icons.Rounded.ExpandLess,
-            modifier = Modifier.size(55.dp),
+            imageVector = icon,
+            modifier = Modifier.size(55.dp).graphicsLayer { rotationX = 160f },
             tint = MaterialTheme.colors.onSecondary,
-            contentDescription = "Backspace"
+            contentDescription = null
         )
     }
 }
@@ -108,7 +110,7 @@ fun ToggleToLetterLayoutKey(modifier: Modifier = Modifier, toggleToLetterLayout:
 }
 
 @Composable
-fun IMEActonButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun IMEActonButton(icon: ImageVector, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Key(
         modifier = modifier
             .fillMaxSize()
@@ -118,7 +120,7 @@ fun IMEActonButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
             .clickable { onClick() }
     ) {
         Icon(
-            imageVector = Icons.Rounded.Send,
+            imageVector = icon,
             tint = MaterialTheme.colors.onSecondary,
             contentDescription = "Backspace"
         )

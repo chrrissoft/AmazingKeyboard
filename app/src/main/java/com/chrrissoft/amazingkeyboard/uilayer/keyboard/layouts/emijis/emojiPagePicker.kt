@@ -24,9 +24,7 @@ fun EmojiPagePicker(
     onChangePage: () -> Unit
 ) {
     val color = if (selected) MaterialTheme.colors.secondaryVariant else Color.Transparent
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .fillMaxSize()

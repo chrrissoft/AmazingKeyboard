@@ -24,20 +24,20 @@ fun QwertyKey(
     currentUnicodeList: List<List<String>>,
     currentRow: Int,
     currentKey: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     val interactionSource = remember {
         MutableInteractionSource()
     }
     Key(modifier = modifier
         .fillMaxSize()
-        .padding(horizontal = 3.5.dp, vertical = 4.dp)
+        .padding(horizontal = 3.dp, vertical = 3.5.dp)
         .clip(shape = RoundedCornerShape(7.dp))
         .background(MaterialTheme.colors.primary)
         .clickable(interactionSource = interactionSource, indication = null) {
-            connection.sendText(
-                currentUnicodeList[currentRow][currentKey],
-            )
+            connection.sendText(currentUnicodeList[currentRow][currentKey],)
+            onClick()
         }
     ) { Text(text = key, fontSize = 18.sp, color = MaterialTheme.colors.onPrimary) }
 }

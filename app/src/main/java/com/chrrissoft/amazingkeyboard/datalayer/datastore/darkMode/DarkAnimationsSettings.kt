@@ -1,6 +1,6 @@
 package com.chrrissoft.amazingkeyboard.datalayer.datastore.darkMode
 
-class DarkModeKeyboardAnimationsSettings {
+class DarkAnimationsSettings {
 }
 
 enum class AnimationType {

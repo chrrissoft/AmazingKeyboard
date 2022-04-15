@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.chrrissoft.amazingkeyboard.datalayer.di.AmazingKeyboard
+import com.chrrissoft.amazingkeyboard.AmazingKeyboardApp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -18,20 +18,20 @@ import javax.inject.Singleton
 private const val SETTINGS_PREFERENCE_NAME = "Dark Mode Keyboard Colors Settings"
 
 @Singleton
-class DarkModeKeyboardColorsSettings @Inject constructor(private val context: AmazingKeyboard) {
+class DarkColorsSettings @Inject constructor(private val context: AmazingKeyboardApp) {
     private val Context.darkModeColorsSettings: DataStore<Preferences> by preferencesDataStore(
         name = SETTINGS_PREFERENCE_NAME
     )
 
-    val darkModeKeyboardColorsSettingsFlow: Flow<KeyboardDarkColors> =
+    val darkColorsSettingsFlow: Flow<KeyboardDarkColors> =
         context.darkModeColorsSettings.data
             .catch { if (it is IOException) emit(emptyPreferences()) else throw it }
             .map { preferences ->
 
-                val defaultBackground = DefaultKeyboardDarkColors.BACKGROUND
-                val defaultAssentKey = DefaultKeyboardDarkColors.ASSENT
-                val defaultLetter = DefaultKeyboardDarkColors.LETTER
-                val defaultKey = DefaultKeyboardDarkColors.KEY
+                val defaultBackground = 0XFFF5F5F5
+                val defaultAssentKey = 0XFFF5F5F5
+                val defaultLetter = 0XFFF5F5F5
+                val defaultKey = 0XFFF5F5F5
 
                 val background =
                     preferences[KEYBOARD_BACKGROUND_DARK_COLOR_KEY] ?: defaultBackground
@@ -44,7 +44,7 @@ class DarkModeKeyboardColorsSettings @Inject constructor(private val context: Am
             }
 
 
-    suspend fun changeKeyboardColor(preferencesColorKey: Preferences.Key<Int>, newColor: Int) {
+    suspend fun changeColor(preferencesColorKey: Preferences.Key<Int>, newColor: Int) {
         context.darkModeColorsSettings.edit { preferences ->
             preferences[preferencesColorKey] = newColor
         }
@@ -59,10 +59,10 @@ class DarkModeKeyboardColorsSettings @Inject constructor(private val context: Am
 }
 
 data class KeyboardDarkColors(
-    val background: Comparable<*>,
-    val assentKey: Comparable<*>,
-    val letter: Comparable<*>,
-    val key: Comparable<*>,
+    val background: Number,
+    val assentKey: Number,
+    val letter: Number,
+    val key: Number,
 )
 
 enum class DefaultKeyboardDarkColors(color: Long) {

@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.chrrissoft.amazingkeyboard.datalayer.di.AmazingKeyboard
+import com.chrrissoft.amazingkeyboard.AmazingKeyboardApp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 private const val SETTINGS_PREFERENCE_NAME = "Keyboard Themes Settings"
 
 @Singleton
-class KeyboardThemesSettings @Inject constructor(private val context: AmazingKeyboard) {
+class KeyboardThemesSettings @Inject constructor(private val context: AmazingKeyboardApp) {
 
     private val Context.settingsStore: DataStore<Preferences> by preferencesDataStore(
         name = SETTINGS_PREFERENCE_NAME)
@@ -40,7 +40,7 @@ class KeyboardThemesSettings @Inject constructor(private val context: AmazingKey
             }
         }
 
-    suspend fun setThemeAutomatically() {
+    suspend fun setAutoTheme() {
         context.settingsStore.edit { preferences ->
             preferences[AUTOMATICALLY_THEME_KEY] = true
         }

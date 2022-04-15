@@ -15,27 +15,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.chrrissoft.amazingkeyboard.R
+import com.chrrissoft.amazingkeyboard.datalayer.datastore.DarkTheme
 import com.chrrissoft.amazingkeyboard.uilayer.screens.main.set_theme.SetTheme
 import com.chrrissoft.amazingkeyboard.uilayer.screens.main.set_theme_settings.SetThemeSettings
 import com.chrrissoft.amazingkeyboard.uilayer.screens.main.sync_settings.SyncSettings
-
-@Composable
-fun MainScreen() {
-    val modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp)
-        .clip(shape = RoundedCornerShape(12.dp))
-        .background(MaterialTheme.colors.primary)
-    val setThemeSettingsImage = painterResource(id = R.drawable.ic_baseline_backspace_24)
-
-    Column(Modifier.fillMaxSize()) {
-//        SetTheme(modifier = modifier.weight(1.5f))
-        Try(Modifier.weight(2f).fillMaxSize())
-        SetThemeSettings(image = setThemeSettingsImage, modifier = modifier.weight(2.5f))
-        SetThemeSettings(image = setThemeSettingsImage, modifier = modifier.weight(2.5f))
-        SyncSettings(modifier = modifier.weight(1f))
-    }
-}
 
 @Composable
 fun Try(modifier: Modifier) {
@@ -44,3 +27,22 @@ fun Try(modifier: Modifier) {
         TextField(value = text, onValueChange = setValue)
     }
 }
+
+val test = DarkTheme(true)
+
+    @Composable
+    fun MainScreen() {
+        val modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .clip(shape = RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colors.primary)
+        val setThemeSettingsImage = painterResource(id = R.drawable.keyboard_theme_image)
+
+        Column(Modifier.fillMaxSize()) {
+            SetTheme(modifier = modifier.weight(1.5f), currentTheme = test)
+            SetThemeSettings(image = setThemeSettingsImage, modifier = modifier.weight(2.5f))
+            SetThemeSettings(image = setThemeSettingsImage, modifier = modifier.weight(2.5f))
+            SyncSettings(modifier = modifier.weight(1f))
+        }
+    }

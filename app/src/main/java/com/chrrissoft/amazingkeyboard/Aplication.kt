@@ -1,7 +1,7 @@
-package com.chrrissoft.amazingkeyboard.datalayer.di
+package com.chrrissoft.amazingkeyboard
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class AmazingKeyboard : Application()
+class AmazingKeyboardApp : Application()
