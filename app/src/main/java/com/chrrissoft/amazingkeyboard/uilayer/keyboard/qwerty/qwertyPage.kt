@@ -9,15 +9,21 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.outlined.Forward
+import androidx.compose.material.icons.rounded.FileUpload
+import androidx.compose.material.icons.rounded.Forward
+import androidx.compose.material.icons.rounded.Upload
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.chrrissoft.amazingkeyboard.datalayer.services.IMEService
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.DeleteKey
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.ShiftKey
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.DeleteKey
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.ShiftKey
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -37,18 +43,17 @@ fun QwertyPage(
     var currentUnicodeList: List<List<String>>
 
     // icons
-    val isShiftPermanentIcon = Icons.Rounded.UploadFile
-    val isNotShiftIcon = Icons.Rounded.Forward
-    val isShiftIcon = Icons.Rounded.Adjust
+    val isShiftedIcon = Icons.Rounded.Upload
+    val notShiftIcon = Icons.Rounded.Forward
+    val isShiftIcon = Icons.Outlined.Forward
+    var isRotateIcon = true
 
 
-
-    val isShift = connection.isShift.observeAsState()
-    val isShifted = connection.isShifted.observeAsState()
+    val shiftState by connection.shiftState.observeAsState()
 
     val interactionSource = remember { MutableInteractionSource() }
 
-    var intervalDeleteText: Long = 600
+    var intervalDeleteText: Long = 650
     val deleteKeyInteractionSource = remember { MutableInteractionSource() }
     val isPressedDeleteKey by deleteKeyInteractionSource.collectIsPressedAsState()
     val deleteTextHandle = Handler(Looper.getMainLooper())
@@ -57,21 +62,23 @@ fun QwertyPage(
         override fun run() {
             connection.deleteText()
             deleteTextHandle.postDelayed(this, intervalDeleteText)
-            intervalDeleteText = 30
+            intervalDeleteText = 50
         }
     }
 
     Column(modifier = modifier.fillMaxSize()) {
-        currentUnicodeList = if (isShift.value!! || isShifted.value!!) {
+        currentUnicodeList = if (
+            shiftState == IMEService.ShiftState.SHIFT || shiftState == IMEService.ShiftState.SHIFTED) {
             unicodeListUppercase
         } else unicodeListLowercase
 
-        val currentShiftIcon = when {
-            !isShift.value!! -> {
-                isNotShiftIcon
+        val currentShiftIcon = when (shiftState) {
+            IMEService.ShiftState.NOT_SHIFT -> {
+                notShiftIcon
             }
-            isShifted.value!! -> {
-                isShiftPermanentIcon
+            IMEService.ShiftState.SHIFTED -> {
+                isRotateIcon = false
+                isShiftedIcon
             }
             else -> {
                 isShiftIcon
@@ -83,7 +90,8 @@ fun QwertyPage(
             DisposableEffect(Unit) {
                 onDispose {
                     deleteTextHandle.removeCallbacks(interval)
-                    intervalDeleteText = 600 }
+                    intervalDeleteText = 600
+                }
             }
         }
 
@@ -97,6 +105,7 @@ fun QwertyPage(
                 row.forEach { key ->
                     if (key == nextShitLower || key == nextShitUpper) {
                         ShiftKey(
+                            isRotateIcon = isRotateIcon,
                             icon = currentShiftIcon,
                             modifier = Modifier
                                 .weight(1.5f)
@@ -108,12 +117,20 @@ fun QwertyPage(
                                         connection.enableShifted()
                                     },
                                     onClick = {
-                                        connection.enableShift()
-                                        connection.disableShifted()
+                                        when (shiftState) {
+                                            IMEService.ShiftState.SHIFTED -> {
+                                                connection.disableShift()
+                                            }
+                                            IMEService.ShiftState.SHIFT -> {
+                                                connection.disableShift()
+                                            }
+                                            else -> { connection.enableShift() }
+                                        }
                                     }
                                 )
                         )
                     }
+
                     QwertyKey(
                         key = key,
                         connection = connection,
@@ -122,7 +139,11 @@ fun QwertyPage(
                         currentUnicodeList = currentUnicodeList,
                         modifier = Modifier
                             .weight(1f),
-                    ) { connection.disableShift() }
+                    ) {
+                        if (shiftState != IMEService.ShiftState.SHIFTED) {
+                            connection.disableShift()
+                        }
+                    }
                     if (key == nextDeleteLower || key == nextDeleteUpper)
                         DeleteKey(
                             Modifier

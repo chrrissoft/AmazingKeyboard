@@ -1,4 +1,4 @@
-package com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables
+package com.chrrissoft.amazingkeyboard.uilayer.keyboard.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,7 +12,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Backspace
-import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -79,7 +78,8 @@ fun ToggleToSymbolLayoutsKey(modifier: Modifier = Modifier, goToSymbolsLayout: (
 }
 
 @Composable
-fun ShiftKey(icon: ImageVector, modifier: Modifier = Modifier) {
+fun ShiftKey(isRotateIcon: Boolean, icon: ImageVector, modifier: Modifier = Modifier) {
+    val rotationIcon = if (isRotateIcon) 270f else 0f
     Key(
         modifier = modifier
             .fillMaxSize()
@@ -90,7 +90,7 @@ fun ShiftKey(icon: ImageVector, modifier: Modifier = Modifier) {
     ) {
         Icon(
             imageVector = icon,
-            modifier = Modifier.size(55.dp).graphicsLayer { rotationX = 160f },
+            modifier = Modifier.size(55.dp).graphicsLayer { rotationZ = rotationIcon },
             tint = MaterialTheme.colors.onSecondary,
             contentDescription = null
         )
@@ -110,7 +110,7 @@ fun ToggleToLetterLayoutKey(modifier: Modifier = Modifier, toggleToLetterLayout:
 }
 
 @Composable
-fun IMEActonButton(icon: ImageVector, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun IMEActonButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Key(
         modifier = modifier
             .fillMaxSize()
@@ -120,7 +120,7 @@ fun IMEActonButton(icon: ImageVector, modifier: Modifier = Modifier, onClick: ()
             .clickable { onClick() }
     ) {
         Icon(
-            imageVector = icon,
+            imageVector = Icons.Rounded.Send,
             tint = MaterialTheme.colors.onSecondary,
             contentDescription = "Backspace"
         )

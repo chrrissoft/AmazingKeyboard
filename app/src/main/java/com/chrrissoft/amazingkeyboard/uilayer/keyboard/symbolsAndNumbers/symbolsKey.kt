@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chrrissoft.amazingkeyboard.datalayer.services.IMEService
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.Key
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.Key
 
 @Composable
 fun SymbolsKey(
@@ -37,6 +37,6 @@ fun SymbolsKey(
         .clickable(
             interactionSource = interactionSource,
             indication = null
-        ) { connection.sendText(currentSymbolsList[currentRow][currentKey]) }
+        ) { connection.onKey(currentSymbolsList[currentRow][currentKey], null) },
     ) { Text(text = key, fontSize = 18.sp, color = MaterialTheme.colors.onPrimary) }
 }

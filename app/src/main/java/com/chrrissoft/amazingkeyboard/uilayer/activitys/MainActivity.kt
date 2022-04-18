@@ -1,64 +1,98 @@
 package com.chrrissoft.amazingkeyboard.uilayer.activitys
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.chrrissoft.amazingkeyboard.datalayer.datastore.lightMode.LightColorsSettings.Companion.KEYBOARD_KEY__LIGHT_COLOR_KEY
-import com.chrrissoft.amazingkeyboard.uilayer.screens.main.MainViewModel
+import androidx.compose.ui.viewinterop.AndroidView
+import com.chrrissoft.amazingkeyboard.R
 import com.chrrissoft.amazingkeyboard.uilayer.theme.AmazingKeyboardTheme
-import dagger.hilt.android.AndroidEntryPoint
+import com.google.android.gms.ads.*
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private var darkTheme = false
-    private var autoTheme = false
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AmazingKeyboardApp(true, false) {
-                //                MainScreen()
-//                Try()
+            AmazingKeyboardApp() {
+                Options() {
+                val test =
+                    ShowInputPicker()
+                test.showPicker(this)
+            }
+
+                val adWidth: Int = LocalConfiguration.current.screenWidthDp - 32
+                val requestLimit = 10
+                var requestIntent = 0
+
+                Column(modifier = Modifier.background(MaterialTheme.colors.primary)) {
+                    AndroidView(
+                        factory = { context ->
+                            AdView(context).apply {
+                                adSize = AdSize.BANNER
+                                adUnitId = context.getString(R.string.ad_id_adaptive_banner)
+                                loadAd(AdRequest.Builder().build())
+                                adListener = object : AdListener() {
+                                    override fun onAdFailedToLoad(p0: LoadAdError) {
+                                        super.onAdFailedToLoad(p0)
+                                        if (requestIntent < requestLimit) {
+                                            onAdLoaded()
+                                        }
+                                        Log.d("Activity", requestIntent.toString())
+                                        requestIntent++
+                                    }
+                                }
+                            }
+                        }
+                    )
+                }
+
             }
         }
     }
 }
 
-fun onChangeTest(viewModel: MainViewModel) {
-    viewModel.changeTest(KEYBOARD_KEY__LIGHT_COLOR_KEY, 0XFF000000)
+@Composable
+fun Options(showPicker: () -> Unit) {
+    Column(
+        Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    ) {
+        val ctx = LocalContext.current
+        val (text, setValue) = remember { mutableStateOf(TextFieldValue("Escribe aqui")) }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(15.dp), onClick = {
+            ctx.startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
+        }) {
+            Text(text = "Permitir como metodo de entrada")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(modifier = Modifier.fillMaxWidth().padding(15.dp), onClick = { showPicker() }) {
+            Text(text = "Seleccionar como metodo de entrada")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        TextField(value = text, onValueChange = setValue, modifier = Modifier.fillMaxWidth())
+    }
 }
 
 @Composable
-fun Try(viewModel: MainViewModel = hiltViewModel()) {
-
-    val testCurrentColor = viewModel.testColors.observeAsState()
-
-    Box(modifier = Modifier
-        .width(200.dp)
-        .height(200.dp)
-        .background(Color(color = testCurrentColor.value!!.assentKey))
-        .clickable { onChangeTest(viewModel) })
-}
-
-@Composable
-fun AmazingKeyboardApp(autoTheme: Boolean, darkTheme: Boolean, content: @Composable () -> Unit) {
-    AmazingKeyboardTheme(autoTheme = autoTheme, darkTheme = darkTheme) {
+fun AmazingKeyboardApp(content: @Composable () -> Unit) {
+    AmazingKeyboardTheme() {
         Surface(color = MaterialTheme.colors.background) {
             content()
         }

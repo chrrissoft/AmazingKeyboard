@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.chrrissoft.amazingkeyboard.datalayer.datastore.KeyboardThemesSettings
 import com.chrrissoft.amazingkeyboard.datalayer.datastore.lightMode.LightColorsSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +25,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch { colorsTest.changeColor(preferencesColorKey, newColor) }
 
     }
-
 
     val storedKeyboardThemeSettings = settings.keyboardThemesSettingsFlow.asLiveData()
 

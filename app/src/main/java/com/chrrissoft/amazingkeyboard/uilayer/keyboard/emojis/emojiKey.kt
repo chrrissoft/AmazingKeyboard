@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.chrrissoft.amazingkeyboard.datalayer.services.IMEService
 import com.chrrissoft.amazingkeyboard.datalayer.util.unicodeToString
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.Key
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.Key
 
 
 @Composable
@@ -29,7 +29,7 @@ fun EmojiKey(
         modifier = modifier
             .padding(4.dp)
             .clickable(interactionSource = interactionSource, indication = null) {
-                connection.sendText(unicodeToString(emojisList[currentRow][currentEmoji]))
+                connection.onKey(unicodeToString(emojisList[currentRow][currentEmoji]), null)
             }) {
         Text(
             text = emoji

@@ -9,7 +9,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowLeft
 import androidx.compose.material.icons.rounded.ArrowRight
-import androidx.compose.material.icons.rounded.GMobiledata
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,9 +19,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.chrrissoft.amazingkeyboard.datalayer.services.IMEService
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.IMEActonButton
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.SpacerKey
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.ToggleToLetterLayoutKey
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.IMEActonButton
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.SpacerKey
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.ToggleToLetterLayoutKey
 import com.chrrissoft.amazingkeyboard.uilayer.keyboard.symbolsAndNumbers.CurrentSymbolsPage
 import com.chrrissoft.amazingkeyboard.uilayer.keyboard.symbolsAndNumbers.symbolsListOne
 import com.chrrissoft.amazingkeyboard.uilayer.keyboard.symbolsAndNumbers.symbolsListTwo
@@ -55,11 +54,11 @@ fun SymbolsLayout(navController: NavHostController, connection: IMEService) {
             ChangePageButton(icon = Icons.Rounded.ArrowLeft, modifier = Modifier.weight(1f)) {
                 onPageChange(SymbolsPages.PageOne)
             }
-            SpacerKey(Modifier.weight(4f).clickable { connection.sendText(" ") })
+            SpacerKey(Modifier.weight(4f).clickable { connection.onKey(" ", null) })
             ChangePageButton(icon = Icons.Rounded.ArrowRight, modifier = Modifier.weight(1f)) {
                 onPageChange(SymbolsPages.PageTwo)
             }
-            IMEActonButton(Icons.Rounded.GMobiledata, Modifier.weight(1.5f)) { connection.doneText() }
+            IMEActonButton(Modifier.weight(1.5f)) { connection.doneText() }
         }
     }
 }

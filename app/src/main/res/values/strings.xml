@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Amazing Keyboard</string>
+    <string name="ad_id_adaptive_banner" translatable="false">ca-app-pub-2120704464179014/4844572886</string>
+    <string name="ad_id_adaptive_banner_debug" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
 </resources>

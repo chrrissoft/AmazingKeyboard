@@ -2,7 +2,6 @@
 
 package com.chrrissoft.amazingkeyboard.uilayer.keyboard.layouts.emijis
 
-import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import androidx.compose.foundation.clickable
@@ -14,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.chrrissoft.amazingkeyboard.datalayer.services.IMEService
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.DeleteKey
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.ToggleToLetterLayoutKey
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.DeleteKey
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.ToggleToLetterLayoutKey
 
 enum class EmojiPages {
     EmoticonsAndEmotionsPage,

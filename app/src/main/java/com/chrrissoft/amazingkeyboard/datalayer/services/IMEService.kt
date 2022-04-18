@@ -1,8 +1,6 @@
 package com.chrrissoft.amazingkeyboard.datalayer.services
 
 import android.inputmethodservice.InputMethodService
-import android.text.InputType
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.*
@@ -10,24 +8,21 @@ import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.AndroidKeyboardView
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.core.AndroidKeyboardView
 
 class IMEService : InputMethodService(),
     LifecycleOwner, ViewModelStoreOwner, SavedStateRegistryOwner {
 
-    private var _isShifted = MutableLiveData(false)
-    private var _isShift = MutableLiveData(true)
-    private var _IMEAcction = MutableLiveData(2)
+    enum class ShiftState() { SHIFTED, NOT_SHIFT, SHIFT }
+
+    private var _shiftState = MutableLiveData(ShiftState.SHIFT)
 
 
-    val isShifted: LiveData<Boolean> get() = _isShifted
-    val isShift: LiveData<Boolean> get() = _isShift
-    val IMEAcction: LiveData<Int?> get() = _IMEAcction
-
-
+    val shiftState get() = _shiftState
 
 
     override fun onCreateInputView(): View {
+
 
         val view = AndroidKeyboardView(this)
 
@@ -48,27 +43,6 @@ class IMEService : InputMethodService(),
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
         super.onStartInput(attribute, restarting)
 
-        if (attribute != null) {
-            when ( attribute.inputType and InputType.TYPE_MASK_CLASS ) {
-                 InputType.TYPE_TEXT_VARIATION_URI -> {
-                     Log.d("T", "TYPE_TEXT_VARIATION_URI")
-                     _IMEAcction.value = EditorInfo.IME_ACTION_SEARCH
-                 }
-                InputType.TYPE_CLASS_PHONE -> {
-                    Log.d("T", "TYPE_CLASS_PHONE")
-                    _IMEAcction.value = EditorInfo.IME_ACTION_GO
-                }
-                InputType.TYPE_CLASS_NUMBER -> {
-                    Log.d("T", "TYPE_CLASS_NUMBER")
-                    _IMEAcction.value = EditorInfo.IME_ACTION_DONE
-                }
-                InputType.TYPE_CLASS_TEXT -> {
-                    _IMEAcction.value = EditorInfo.IME_ACTION_PREVIOUS
-                    Log.d("T", "TYPE_CLASS_TEXT")
-                }
-            }
-        }
-
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
@@ -76,14 +50,20 @@ class IMEService : InputMethodService(),
     }
 
 
-    fun enableShift() { _isShift.value = true }
-    fun disableShift() { _isShift.value = false }
+    fun enableShift() {
+        _shiftState.value = ShiftState.SHIFT
+    }
 
-    fun enableShifted() { _isShifted.value = true }
-    fun disableShifted() { _isShifted.value = false }
+    fun disableShift() {
+        _shiftState.value = ShiftState.NOT_SHIFT
+    }
+
+    fun enableShifted() {
+        _shiftState.value = ShiftState.SHIFTED
+    }
 
 
-    fun sendText(text: CharSequence) {
+    fun onKey(text: CharSequence, index: Int?) {
         currentInputConnection.commitText(text, 1)
     }
 

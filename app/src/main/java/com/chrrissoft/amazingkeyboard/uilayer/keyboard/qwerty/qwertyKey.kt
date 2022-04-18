@@ -15,15 +15,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chrrissoft.amazingkeyboard.datalayer.services.IMEService
-import com.chrrissoft.amazingkeyboard.uilayer.keyboard.composables.Key
+import com.chrrissoft.amazingkeyboard.uilayer.keyboard.common.Key
 
 @Composable
 fun QwertyKey(
     key: String,
-    connection: IMEService,
-    currentUnicodeList: List<List<String>>,
     currentRow: Int,
     currentKey: Int,
+    connection: IMEService,
+    currentUnicodeList: List<List<String>>,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -36,7 +36,7 @@ fun QwertyKey(
         .clip(shape = RoundedCornerShape(7.dp))
         .background(MaterialTheme.colors.primary)
         .clickable(interactionSource = interactionSource, indication = null) {
-            connection.sendText(currentUnicodeList[currentRow][currentKey],)
+            connection.onKey(currentUnicodeList[currentRow][currentKey], null)
             onClick()
         }
     ) { Text(text = key, fontSize = 18.sp, color = MaterialTheme.colors.onPrimary) }
